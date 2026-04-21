@@ -1,0 +1,23 @@
+@font-face {
+    font-family: Anta;
+    src: url(./Fonts/Anta-Regular.ttf);
+}
+body{
+    font-family: Anta;
+    text-align: center;
+}
+.HomeTxt{
+    font-size: 3vw;
+}
+.HomeNav{
+    width: 100vw;
+}
+.navBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Anta;
+}
+.navBtn button{
+    font-family: Anta;
+}
