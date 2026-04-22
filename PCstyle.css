@@ -29,7 +29,7 @@ body{
     cursor: pointer;
 }
 .navBtn button{
-    border-radius:2.5067vh;
+    border-radius:4vh;
     width: 34.0856vw;
     height: 9.4897vh;
     font-family: Anta;
@@ -38,4 +38,11 @@ body{
     border: none;
     background-color: #C3C3C3;
     cursor: pointer;
+    text-align: left;
+    padding-left: 2.1412vw;
+    padding-right: 2.1412vw;
+}
+.navBtn button .arrow{
+    text-align: right;
+    float: right;
 }
