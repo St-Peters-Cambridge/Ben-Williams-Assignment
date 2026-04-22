@@ -6,8 +6,11 @@ body{
     font-family: Anta;
     text-align: center;
 }
+.HomeBody{
+    overflow-x: hidden;
+}
 .HomeTxt{
-    font-size: 3vw;
+    font-size: 8.59444vh;
 }
 .HomeNav{
     width: 100vw;
@@ -17,7 +20,22 @@ body{
     justify-content: center;
     align-items: center;
     font-family: Anta;
+    margin-top: 3.1333vh;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: 34.0856vw;
+    text-decoration: none;
+    cursor: pointer;
 }
 .navBtn button{
+    border-radius:2.5067vh;
+    width: 34.0856vw;
+    height: 9.4897vh;
     font-family: Anta;
+    text-decoration: none;
+    font-size: 5.7296vh;
+    border: none;
+    background-color: #C3C3C3;
+    cursor: pointer;
 }
