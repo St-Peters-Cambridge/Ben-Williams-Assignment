@@ -752,46 +752,6 @@
 			(embedded_fonts no)
 		)
 	)
-	(wire
-		(pts
-			(xy 72.39 24.13) (xy 72.39 19.05)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1d1346c2-3e89-4d60-910c-d1b96c0d9715")
-	)
-	(wire
-		(pts
-			(xy 76.2 24.13) (xy 72.39 24.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "594cce17-d1df-4f08-814b-6c8d3390e494")
-	)
-	(wire
-		(pts
-			(xy 72.39 19.05) (xy 96.52 19.05)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "de216f90-9820-4ccd-863a-0cc5a27457ba")
-	)
-	(wire
-		(pts
-			(xy 96.52 19.05) (xy 96.52 24.13)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "dfc09533-653d-4fe9-a893-6ada1ba36e30")
-	)
 	(image
 		(at 43.18 31.75)
 		(uuid "a9f37159-7326-4bd6-8a61-b403652de49e")
