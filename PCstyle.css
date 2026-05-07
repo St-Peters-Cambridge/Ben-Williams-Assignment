@@ -5,9 +5,8 @@
 body{
     font-family: Anta;
     text-align: center;
-}
-.HomeBody{
-    overflow-x: hidden;
+    padding: none;
+    margin: none;
 }
 .HomeTxt{
     font-size: 8.59444vh;
@@ -45,4 +44,107 @@ body{
 .navBtn button .arrow{
     text-align: right;
     float: right;
+}
+
+.NavMenu{
+    background-color: #BDBDBD;
+    position: fixed;
+    top: 0;
+    left: -20vw;
+    height: 100vh;
+    font-family: Anta;
+    transition: left 0.3s ease;
+}
+.NavMenu.viewing{
+    background-color: #BDBDBD;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    font-family: Anta;
+}
+.NavBG{
+    background-color: #BDBDBD;
+    position: fixed;
+    top: 0;
+    left: -20vw;
+    height: 100vh;
+    width: 15vw;
+    z-index: -1;
+    transition: left 0.3s ease;
+}
+.NavBG.viewing{
+    background-color: #BDBDBD;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 15vw;
+    z-index: -1;
+}
+.NavBG_Gradient{
+    background: linear-gradient(to right, #BDBDBD, transparent);
+    position: fixed;
+    top: 0;
+    left: -5vw;
+    height: 100vh;
+    width: 2vw;
+    z-index: -1;
+    transition: left 0.3s ease;
+}
+.NavBG_Gradient.viewing{
+    background: linear-gradient(to right, #BDBDBD, transparent);
+    position: fixed;
+    top: 0;
+    left: 15vw;
+    height: 100vh;
+    width: 2vw;
+    z-index: -1;
+}
+.NavMenu a button{
+    background-color: transparent;
+    border: none;
+    margin-bottom: 3.1333vh;
+    font-family: Anta;
+    font-size: 3vh;
+    width: 15vw;
+    text-align: left;
+    padding-right: 2vw;
+    cursor: pointer;
+}
+.NavMenu a{
+    text-decoration: none;
+    z-index: 1;
+    width: 90%;
+    position:relative;
+    top: 6vh;
+}
+.arrow{
+    float: right;
+    text-align: right;
+}
+.active{
+    cursor: default;
+}
+.active button{
+    color: #707070;
+    cursor: default;
+}
+.exitBtn{
+    position: fixed;   /* independent of NavMenu */
+    top: 2vh;
+    left: 0.5vh;
+    z-index: 100;      /* above everything */
+    width: 4vh;
+    height: 4vh;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.exitBtn img{
+    width: 100%;
+    height: 100%;
+    padding: 0%;
+    margin: 0%;
 }
