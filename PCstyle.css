@@ -11,6 +11,10 @@ body{
 .HomeTxt{
     font-size: 8.59444vh;
 }
+.Heading{
+    font-size: 8.59444vh;
+    font-weight: 0.5vw;
+}
 .HomeNav{
     width: 100vw;
 }
@@ -158,4 +162,23 @@ body{
     height: 100%;
     padding: 0%;
     margin: 0%;
+}
+
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5vh;
+    border-collapse: collapse;
+}
+td{
+    padding-left: 1vw;
+    padding-right: 1vw;
+    font-size: 2.5vh;
+}
+td:first-child{
+    text-align: left;
+}
+tr{
+    background-color: #959595;
 }

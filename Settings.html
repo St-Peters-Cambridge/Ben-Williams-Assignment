@@ -25,6 +25,127 @@
         <a href = "Full.html"><button>Full View<span class = "arrow">></span></button></a>
     </div>
 
+    <h1 class = "HomeTxt">Settings</h1>
+    <table>
+        <tr>
+            <td>Pad Idle Log Rate</td>
+            <td><input id="padIdleLogRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Flight Log Rate</td>
+            <td><input id="flightLogRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Ballistic Log Rate</td>
+            <td><input id="ballisticLogRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Pad Idle Transmit Rate</td>
+            <td><input id="padIdleTransmitRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Flight Transmit Rate</td>
+            <td><input id="flightTransmitRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Ballistic Transmit Rate</td>
+            <td><input id="ballisticTransmitRate" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>Hz</td>
+        </tr>
+        <tr>
+            <td>Main Primary</td>
+            <td><select id="mainPrimaryMode">
+                <option value = "none">Motor</option>
+                <option value = "servo">Servo</option>
+                <option value = "pyro">Pyro</option>
+            </select></td>
+            <td><input id="mainPrimary" type = "number" min = "0" max = "4" step = "1" placeholder = "0"></td>
+        </tr>
+        <tr>
+            <td>Main Backup</td>
+            <td><select id="mainBackupMode">
+                <option value = "none">None</option>
+                <option value = "servo">Servo</option>
+                <option value = "pyro">Pyro</option>
+            </select></td>
+            <td><input id="mainBackup" type = "number" min = "0" max = "4" step = "1" placeholder = "0"></td>
+        </tr>
+        <tr>
+            <td>Drogue Primary</td>
+            <td><select id="droguePrimaryMode">
+                <option value = "none">None</option>
+                <option value = "none">Motor</option>
+                <option value = "servo">Servo</option>
+                <option value = "pyro">Pyro</option>
+            </select></td>
+            <td><input id="droguePrimary" type = "number" min = "0" max = "4" step = "1" placeholder = "0"></td>
+        </tr>
+        <tr>
+            <td>Drogue Backup</td>
+            <td><select id="drogueBackupMode">
+                <option value = "none">None</option>
+                <option value = "servo">Servo</option>
+                <option value = "pyro">Pyro</option>
+            </select></td>
+            <td><input id="drogueBackup" type = "number" min = "0" max = "4" step = "1" placeholder = "0"></td>
+        </tr>
+        <tr>
+            <td>Main Deploy</td>
+            <td><input id="mainDeploy" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td><select id="mainDeployMode">
+                <option value = "none">S</option>
+                <option value = "altitude">M</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Drogue Deploy</td>
+            <td><input id="drogueDeploy" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td><select id="drogueDeployMode">
+                <option value = "none">S</option>
+                <option value = "altitude">M</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Flight State Check Time</td>
+            <td><input id="flightStateCheckTime" type = "number" min = "0" step = "1" placeholder = "0"></td>
+            <td>ms</td>
+        </tr>
+        <tr>
+            <td>Launch Accel</td>
+            <td><input id="launchAccel" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+            <td>g</td>
+        </tr>
+        <tr>
+            <td>Burnout Accel</td>
+            <td><input id="burnoutAccel" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+            <td>g</td>
+        </tr>
+        <tr>
+            <td>Landed Tolerance</td>
+            <td><input id="landedTolerance" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+            <td>m</td>
+        </tr>
+        <tr>
+            <td>Saving To SD</td>
+            <td><select id="savingToSD">
+                <option value = "true">True</option>
+                <option value = "false">False</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td>Saving To Flash</td>
+            <td><select id="savingToFlash">
+                <option value = "true">True</option>
+                <option value = "false">False</option>
+            </select></td>
+        </tr>
+    </table>
+
     <script src="script.js"></script>
 </body>
 </html>
