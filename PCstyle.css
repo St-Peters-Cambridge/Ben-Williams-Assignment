@@ -290,5 +290,16 @@ tr:has(th){
     border: none;
 }
 .FlightMenu{
-    width: 30vw;
+    width: 50vw;
+    border-radius: 2vw;
+}
+.FlightMenu tr:first-child td{
+    height: 3.5vw;
+}
+.FlightMenu tr:last-child td{
+    height: 3.5vw;
+}
+.FlightMenu td{
+    line-height: 3.5vw;
+    font-size: 3vw;
 }
