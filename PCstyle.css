@@ -168,10 +168,10 @@ table{
     border-collapse: collapse;
     border-radius: 1vw;
     overflow: hidden;
+    padding-left: 0%;
+    padding-right: 0%;
 }
 td{
-    padding-left: 1vw;
-    padding-right: 1vw;
     font-size: 1.5vw;
     justify-content: center;
     padding-top: 0.1vw;
@@ -179,12 +179,15 @@ td{
 }
 td:first-child{
     text-align: left;
+    padding-left: 0.5vw;
 }
 td:last-child{
+    padding-right: 0.5vw;
     text-align: left;
     padding-left: 0vw;
 }
 td:nth-child(2){
+    padding-left: 1vw;
     text-align: right;
 }
 tr{
@@ -225,4 +228,67 @@ table input{
 }
 #savingToSD, #savingToFlash{
     width: 6.25vw;
+}
+th{
+    padding-top: 0.5vw;
+    font-size: 2.5vw;
+    font-weight: normal;
+}
+tr:has(th){
+    line-height: 2.5vw;
+}
+.GPSMenu td:last-child{
+    width: 12vw;
+}
+.DataMenu td:last-child{
+    width: 12vw;
+}
+.FlagsMenu td:last-child{
+    width: 7vw;
+}
+.DataMenu td:has(button){
+    text-align: center;
+}
+.FlagsMenu td:has(button){
+    text-align: center;
+}
+.DataMenu button{
+    margin-left:auto;
+    margin-right:auto;
+    font-size: 1.25vw;
+    margin-bottom: auto;
+    margin-top: auto;
+    width: 10vw;
+    padding: 0;
+    font-family: Anta;
+    border-radius: 0.5vw;
+    border: none;
+}
+.DataMenu{
+    width: 25vw;
+    float: right;
+    margin-right: 20vw;
+}
+.GPSMenu{
+    width: 25vw;
+    float: left;
+    margin-left: 20vw;
+}
+.FlagsMenu{
+    width: 25vw;
+}
+.FlagsMenu button{
+    margin-left:auto;
+    margin-right:auto;
+    font-size: 1.25vw;
+    margin-bottom: auto;
+    margin-top: auto;
+    width: 10vw;
+    padding: 0;
+    font-family: Anta;
+    border-radius: 0.5vw;
+    border: none;
+}
+.FlightMenu{
+    width: 30vw;
 }
