@@ -303,3 +303,32 @@ tr:has(th){
     line-height: 3.5vw;
     font-size: 3vw;
 }
+
+#Map{
+    border-radius: 2vw;
+    width: 75vw;
+    height: 35vw;
+}
+.PostFlightBtns{
+    background-color: transparent;
+    border: none;
+    font-family: Anta;
+    border-radius: 0;
+}
+.PostFlightBtns tr{
+    background-color: transparent;
+}
+.PostFlightBtns td{
+    padding-left: 1vw;
+    padding-right: 1vw;
+}
+.PostFlightBtns button{
+    width: 15vw;
+    height: 4vh;
+    font-size: 1.5vw;
+    border-radius: 1vw;
+    border: none;
+    background-color: #C3C3C3;
+    cursor: pointer;
+    font-family: Anta;
+}

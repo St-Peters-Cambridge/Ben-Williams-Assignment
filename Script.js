@@ -1,3 +1,6 @@
+var GPS_LAT = -37.54914504265702;
+var GPS_LON = 175.25749082838198;
+
 try{
     let viewing = false;
     document.querySelectorAll('#MenuBtn').forEach(btn => {
@@ -132,3 +135,29 @@ try {
         Flags_State.style.color = "red";
     }
 } catch (error) {}
+
+try{
+    EmbedMap = document.getElementById('Map');
+    EmbedMap.src = "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1750!2d" + GPS_LON.toFixed(6) + "!3d" + GPS_LAT.toFixed(6) + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2z"+ encodeCoords(GPS_LAT.toFixed(6), GPS_LON.toFixed(6)) +"!5e1!3m2!1sen!2snz!4v1779743037952!5m2!1sen!2snz";
+} catch (error) {}
+
+function decimalToDMSString(lat, lng) {
+  function toDMS(decimal, isLat) {
+    const dir = isLat ? (decimal >= 0 ? "N" : "S") : (decimal >= 0 ? "E" : "W");
+    const abs = Math.abs(decimal);
+    const deg = Math.floor(abs);
+    const minFull = (abs - deg) * 60;
+    const min = Math.floor(minFull);
+    const sec = ((minFull - min) * 60).toFixed(1);
+    return `${deg}°${min}'${sec}"${dir}`;
+  }
+
+  return `${toDMS(lat, true)} ${toDMS(lng, false)}`;
+}
+
+function encodeCoords(lat, lng) {
+  const dms = decimalToDMSString(lat, lng);
+  // UTF-8 encode before Base64 (handles ° symbol etc.)
+  const encoded = btoa(unescape(encodeURIComponent(dms)));
+  return encoded;
+}
