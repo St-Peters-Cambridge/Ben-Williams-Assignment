@@ -24,7 +24,233 @@
         <br>
         <a class = "active" ><button>Full View<span class = "arrow">></span></button></a>
     </div>
-
+    <h1 class = "HomeTxt">Full View</h1>
+    <table>
+        <tr class = "FullMenu">
+            <td class = "fullMenuSection" rowspan = "2">
+                <table>
+                    <tr>
+                        <td>Pad Idle Log Rate</td>
+                        <td><input id="padIdleLogRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Flight Log Rate</td>
+                        <td><input id="flightLogRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Ballistic Log Rate</td>
+                        <td><input id="ballisticLogRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Pad Idle Transmit Rate</td>
+                        <td><input id="padIdleTransmitRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Flight Transmit Rate</td>
+                        <td><input id="flightTransmitRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Ballistic Transmit Rate</td>
+                        <td><input id="ballisticTransmitRate" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>Hz</td>
+                    </tr>
+                    <tr>
+                        <td>Main Primary</td>
+                        <td><select id="mainPrimaryMode">
+                            <option value = "none">Motor</option>
+                            <option value = "servo">Servo</option>
+                            <option value = "pyro">Pyro</option>
+                        </select></td>
+                        <td><input id="mainPrimary" type = "number" min = "0" max = "4" step = "1" placeholder = "0" class="ParachuteSelector"></td>
+                    </tr>
+                    <tr>
+                        <td>Main Backup</td>
+                        <td><select id="mainBackupMode">
+                            <option value = "none">None</option>
+                            <option value = "servo">Servo</option>
+                            <option value = "pyro">Pyro</option>
+                        </select></td>
+                        <td><input id="mainBackup" type = "number" min = "0" max = "4" step = "1" placeholder = "0"class="ParachuteSelector"></td>
+                    </tr>
+                    <tr>
+                        <td>Drogue Primary</td>
+                        <td><select id="droguePrimaryMode">
+                            <option value = "none">None</option>
+                            <option value = "none">Motor</option>
+                            <option value = "servo">Servo</option>
+                            <option value = "pyro">Pyro</option>
+                        </select></td>
+                        <td><input id="droguePrimary" type = "number" min = "0" max = "4" step = "1" placeholder = "0" class="ParachuteSelector"></td>
+                    </tr>
+                    <tr>
+                        <td>Drogue Backup</td>
+                        <td><select id="drogueBackupMode">
+                            <option value = "none">None</option>
+                            <option value = "servo">Servo</option>
+                            <option value = "pyro">Pyro</option>
+                        </select></td>
+                        <td><input id="drogueBackup" type = "number" min = "0" max = "4" step = "1" placeholder = "0" class="ParachuteSelector"></td>
+                    </tr>
+                    <tr>
+                        <td>Main Deploy</td>
+                        <td><input id="mainDeploy" type = "number" min = "0" step = "1" placeholder = "0"></td>
+                        <td><select id="mainDeployMode" class="ParachuteSelector">
+                            <option value = "none">S</option>
+                            <option value = "altitude">M</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>Drogue Deploy</td>
+                        <td><input id="drogueDeploy" type = "number" min = "0" step = "1" placeholder = "0"></td>
+                        <td><select id="drogueDeployMode" class="ParachuteSelector">
+                            <option value = "none">S</option>
+                            <option value = "altitude">M</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>Flight State Check Time</td>
+                        <td><input id="flightStateCheckTime" type = "number" min = "0" step = "1" placeholder = "0" ></td>
+                        <td>ms</td>
+                    </tr>
+                    <tr>
+                        <td>Launch Accel</td>
+                        <td><input id="launchAccel" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>Burnout Accel</td>
+                        <td><input id="burnoutAccel" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>g</td>
+                    </tr>
+                    <tr>
+                        <td>Landed Tolerance</td>
+                        <td><input id="landedTolerance" type = "number" min = "0" step = "0.1" placeholder = "0.0"></td>
+                        <td>m</td>
+                    </tr>
+                    <tr>
+                        <td>Saving To SD</td>
+                        <td colspan = "2"><select id="savingToSD">
+                            <option value = "true">True</option>
+                            <option value = "false">False</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td>Saving To Flash</td>
+                        <td colspan = "2"><select id="savingToFlash">
+                            <option value = "true">True</option>
+                            <option value = "false">False</option>
+                        </select></td>
+                    </tr>
+                </table>
+            </td>
+            <td class = "fullMenuSection">
+                <table class = "DataMenu_Full">
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td>Flight State:</td>
+                        <td id = "Flight_State">PAD_ARMED</td>
+                    </tr>
+                    <tr>
+                        <td>Altitude:</td>
+                        <td id = "Altitude">0.00 m</td>
+                    </tr>
+                    <tr>
+                        <td>Velocity:</td>
+                        <td id = "Velocity">0.00 m/s</td>
+                    </tr>
+                    <tr>
+                        <td>Flight Time:</td>
+                        <td id = "Flight_Time">0.00 s</td>
+                    </tr>
+                    <tr>
+                        <td>Packet Count:</td>
+                        <td id = "Packet_Count">0</td>
+                    </tr>
+                    <tr>
+                        <td>Packets Received:</td>
+                        <td id = "Packets_Received">0</td>
+                    </tr>
+                    <tr>
+                        <td>Packet Age:</td>
+                        <td id = "Packet_Age">0.00 s</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                </table>
+            </td>
+            <td class = "fullMenuSection" rowspan = "2">
+                <table class = "DataMenu_Full">
+                    <tr>
+                        <th colspan = "2">Data</th>
+                    </tr>
+                    <tr>
+                        <td>Flight State:</td>
+                        <td id = "Flight_State">PAD_IDLE</td>
+                    </tr>
+                    <tr>
+                        <td>Altitude:</td>
+                        <td id = "Altitude">0.00 m</td>
+                    </tr>
+                    <tr>
+                        <td>SD State:</td>
+                        <td id = "SD_State">DISABLED</td>
+                    </tr>
+                    <tr>
+                        <td>Flash State:</td>
+                        <td id = "Flash_State">DISABLED</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><button id = "BeginLogging">Begin Logging</button></td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td id = "Data_Status">HOLD</td>
+                    </tr>
+                </table>
+                <table class = "DataMenu_Full">
+                    <tr>
+                        <th colspan = "2">Flags</th>
+                    </tr>
+                    <tr>
+                        <td>ACCEL:</td>
+                        <td id = "ACCEL">GO</td>
+                    </tr>
+                    <tr>
+                        <td>GYRO:</td>
+                        <td id = "GYRO">GO</td>
+                    </tr>
+                    <tr>
+                        <td>High Range ACCEL:</td>
+                        <td id = "HIGH_RANGE_ACCEL">GO</td>
+                    </tr>
+                    <tr>
+                        <td>BARO:</td>
+                        <td id = "BARO">GO</td>
+                    </tr>
+                    <tr>
+                        <td>Status:</td>
+                        <td id = "Flags_Status">HOLD</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <iframe class = "FullMap" id = "Map" src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1750!2d175.25756591177924!3d-37.5497829719263!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzfCsDMyJzU5LjIiUyAxNzXCsDE1JzM2LjUiRQ!5e1!3m2!1sen!2snz!4v1779743037952!5m2!1sen!2snz" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </td>
+        </tr>
+    </table>
     <script src="../Ben-Williams-Assignment/Script.js"></script>
 </body>
 </html>

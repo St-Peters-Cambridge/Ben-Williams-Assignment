@@ -31,8 +31,9 @@ static const unsigned char PROGMEM logo_bmp[] = {
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+HardwareSerial mySerial(2);
 void setup() {
-  // put your setup code here, to run once:
+  Serial.begin(115200);
   pinMode(0, OUTPUT);
   digitalWrite(0, LOW);  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
@@ -49,9 +50,24 @@ void setup() {
     SSD1306_WHITE
   );
   display.display();
+  mySerial.begin(9600, SERIAL_8N1, 16, 17);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  if (Serial.available()) {
 
+    String message = Serial.readStringUntil('\n');
+
+    mySerial.println(message);
+
+    Serial.print("Sent: ");
+    Serial.println(message);
+  }
+  while (mySerial.available()) {
+
+    String received = mySerial.readStringUntil('\n');
+
+    Serial.print("Received: ");
+    Serial.println(received);
+  }
 }

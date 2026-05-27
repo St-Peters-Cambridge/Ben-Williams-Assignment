@@ -33,7 +33,7 @@ body{
     height: 9.4897vh;
     font-family: Anta;
     text-decoration: none;
-    font-size: 5.7296vh;
+    font-size: 3.5vw;
     border: none;
     background-color: #C3C3C3;
     cursor: pointer;
@@ -240,17 +240,17 @@ tr:has(th){
 .GPSMenu td:last-child{
     width: 12vw;
 }
-.DataMenu td:last-child{
-    width: 12vw;
-}
 .FlagsMenu td:last-child{
     width: 7vw;
+}
+.FlagsMenu td:has(button){
+    text-align: center;
 }
 .DataMenu td:has(button){
     text-align: center;
 }
-.FlagsMenu td:has(button){
-    text-align: center;
+.DataMenu td:last-child{
+    width: 12vw;
 }
 .DataMenu button{
     margin-left:auto;
@@ -304,7 +304,7 @@ tr:has(th){
     font-size: 3vw;
 }
 
-#Map{
+.PostFlightMap{
     border-radius: 2vw;
     width: 75vw;
     height: 35vw;
@@ -331,4 +331,65 @@ tr:has(th){
     background-color: #C3C3C3;
     cursor: pointer;
     font-family: Anta;
+}
+
+
+
+.FullMenu{
+    background-color: transparent;
+    vertical-align: top;
+}
+tr:has(.FullMap){
+    background-color: transparent !important;
+}
+.FullMenu:first-child table{
+    width: 30vw;
+    margin-right: 1.5vw;
+    margin-bottom: 2vw;
+}
+.fullMenuSection{
+    padding: 0px !important;
+}
+.FullMenu:last-child table{
+    width: 30vw;
+    margin-left: 1.5vw;
+}
+.FullMenu:nth-child(2) .DataMenu_Full{
+    margin-right: 0;
+}
+.DataMenu_Full td:has(button){
+    text-align: center;
+}
+.DataMenu_Full td:last-child{
+    width: 12vw;
+}
+.DataMenu_Full button{
+    margin-left:auto;
+    margin-right:auto;
+    font-size: 1.25vw;
+    margin-bottom: auto;
+    margin-top: auto;
+    width: 10vw;
+    padding: 0;
+    font-family: Anta;
+    border-radius: 0.5vw;
+    border: none;
+}
+.DataMenu_Full{
+    text-align: center;
+    width: 30vw;
+    margin-top: 0px;
+}
+.FullMap {
+    width: 30vw;
+    height: 20vw;
+    border-radius: 1vw;
+}
+.fullMenuSection table{
+    margin-top: 0px;
+}
+
+#connectBluetooth button, #connectSerial button{
+    text-align: center; 
+    font-size: 2.5vw;
 }
