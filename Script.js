@@ -161,3 +161,12 @@ function encodeCoords(lat, lng) {
   const encoded = btoa(unescape(encodeURIComponent(dms)));
   return encoded;
 }
+
+
+try{
+    document.getElementById('connectSerial').addEventListener('click', async () => {
+        const port = await navigator.serial.requestPort()
+        await navigator.serial.requestPort()
+        await port.open({ baudRate: 115200 });
+    })
+} catch (error) {}
