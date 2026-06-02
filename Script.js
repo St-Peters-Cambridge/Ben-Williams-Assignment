@@ -162,11 +162,49 @@ function encodeCoords(lat, lng) {
   return encoded;
 }
 
+let port;
+async function connectSerial() {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: 115200 });
+    const info = port.getInfo();
+    sessionStorage.setItem('portVendorId', info.usbVendorId);
+    sessionStorage.setItem('portProductId', info.usbProductId);
+}
 
-try{
-    document.getElementById('connectSerial').addEventListener('click', async () => {
-        const port = await navigator.serial.requestPort()
-        await navigator.serial.requestPort()
-        await port.open({ baudRate: 115200 });
-    })
-} catch (error) {}
+async function autoConnect() {
+    const ports = await navigator.serial.getPorts();
+    const savedVendor = parseInt(sessionStorage.getItem('portVendorId'));
+    const savedProduct = parseInt(sessionStorage.getItem('portProductId'));
+
+    const rocketPort = ports.find(p => {
+        const info = p.getInfo();
+        return info.usbVendorId === savedVendor && info.usbProductId === savedProduct;
+    });
+    
+    if (rocketPort) {
+        port = rocketPort;
+        if (port.readable === null) {
+            await port.open({ baudRate: 115200 });
+        }
+        startReading();
+    }
+}
+autoConnect();
+async function startReading() {
+    console.log("Serial port opened:", port);
+    const reader = port.readable.getReader();
+    let buffer = '';
+
+    while (port != null) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        
+        buffer += new TextDecoder().decode(value);
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        
+        lines.forEach(line => {
+            console.log(line);
+        });
+    }
+}

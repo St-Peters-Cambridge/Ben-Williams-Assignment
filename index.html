@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ground Control Station - Home</title>
     <link rel="stylesheet" href="PCstyle.css">
-    <script src="script.js"></script>
 </head>
 <body class = "HomeBody">
     <h1 class = "HomeTxt">Ground Control Station</h1>
@@ -15,8 +14,9 @@
         <a class = "navBtn" href='Flight.html'><button>Flight <span class="arrow">></span></button></a>
         <a class = "navBtn" href='postFlight.html'><button>Post-Flight <span class="arrow">></span></button></a>
         <a class = "navBtn" href='Full.html'><button>Full <span class="arrow">></span></button></a>
-        <a class = "navBtn" id = "connectBluetooth"><button>Connect to Bluetooth</button></a>
-        <a class = "navBtn" id = "connectSerial"><button>Connect to Serial</button></a>
+        <div class = "navBtn" id = "connectBluetooth"><button>Connect to Bluetooth</button></div>
+        <div class = "navBtn" id = "connectSerial"><button onclick="connectSerial()">Connect to Serial</button></div>
     </div>
+    <script src="../Ben-Williams-Assignment/Script.js"></script>
 </body>
 </html>

@@ -5,14 +5,15 @@
 body{
     font-family: Anta;
     text-align: center;
-    padding: none;
-    margin: none;
+    padding: 0px;
+    margin: 0px;
 }
 .HomeTxt{
     font-size: 5vw;
 }
 .HomeNav{
-    width: 100vw;
+    width: 100%;
+    margin-left: 0px;
 }
 .navBtn{
     display: flex;
