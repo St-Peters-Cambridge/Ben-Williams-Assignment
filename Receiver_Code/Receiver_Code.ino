@@ -35,7 +35,8 @@ HardwareSerial mySerial(2);
 void setup() {
   Serial.begin(115200);
   pinMode(0, OUTPUT);
-  digitalWrite(0, LOW);  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+  digitalWrite(0, LOW);
+  if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
