@@ -210,31 +210,24 @@ async function startReading() {
 }
 
 async function connectBLE(){
-  const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b'; // your UUID
-  const CHAR_UUID    = 'beb5483e-36e1-4688-b7f5-ea07361b26a8'; // your UUID
+  const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
+  const CHAR_UUID    = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
 
   try {
-    // 1. Opens the browser's BLE device picker
     const device = await navigator.bluetooth.requestDevice({
-      filters: [{ services: [SERVICE_UUID] }]
+      acceptAllDevices: true,                    // ← show ALL BLE devices
+      optionalServices: [SERVICE_UUID]           // ← still needed to access it
     });
 
-    // 2. Connect to the ESP32's GATT server
-    const server = await device.gatt.connect();
-
-    // 3. Get your service and characteristic
+    const server         = await device.gatt.connect();
     const service        = await server.getPrimaryService(SERVICE_UUID);
     const characteristic = await service.getCharacteristic(CHAR_UUID);
 
-    // 4. Listen for incoming data (if your char has notify)
     await characteristic.startNotifications();
     characteristic.addEventListener('characteristicvaluechanged', (e) => {
       const msg = new TextDecoder().decode(e.target.value);
       console.log('ESP32 says:', msg);
     });
-
-    // 5. Send a message to the ESP32
-    await characteristic.writeValue(new TextEncoder().encode('hello'));
 
     console.log('Connected to', device.name);
 
