@@ -2,6 +2,13 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <BLEDevice.h>
+#include <BLEServer.h>
+#include <BLEUtils.h>
+#include <BLE2902.h>
+
+#define SERVICE_UUID  "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
+#define CHAR_UUID     "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
@@ -32,6 +39,32 @@ static const unsigned char PROGMEM logo_bmp[] = {
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 HardwareSerial mySerial(2);
+
+BLECharacteristic *pCharacteristic;
+class MyCallbacks : public BLECharacteristicCallbacks {
+  void onWrite(BLECharacteristic *pChar) {
+    String value = pChar->getValue().c_str();
+    Serial.println("Received: " + value);
+    
+    // Echo back
+    pChar->setValue(("Echo: " + value).c_str());
+    pChar->notify();
+  }
+};
+
+class MyServerCallbacks : public BLEServerCallbacks {
+  void onConnect(BLEServer* pServer) {
+    Serial.println("Client connected");
+    pServer->getAdvertising()->start();
+  }
+
+  void onDisconnect(BLEServer* pServer) {
+    Serial.println("Client disconnected");
+    pServer->getAdvertising()->start();
+    BLEDevice::startAdvertising();
+  }
+};
+
 void setup() {
   Serial.begin(115200);
   pinMode(0, OUTPUT);
@@ -52,6 +85,22 @@ void setup() {
   );
   display.display();
   mySerial.begin(9600, SERIAL_8N1, 16, 17);
+  BLEDevice::init("Rocket Ground Station");
+  BLEServer *pServer = BLEDevice::createServer();
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+  pServer->setCallbacks(new MyServerCallbacks());
+
+  pCharacteristic = pService->createCharacteristic(
+    CHAR_UUID,
+    BLECharacteristic::PROPERTY_READ |
+    BLECharacteristic::PROPERTY_WRITE |
+    BLECharacteristic::PROPERTY_NOTIFY
+  );
+  pCharacteristic->addDescriptor(new BLE2902());
+  pCharacteristic->setCallbacks(new MyCallbacks());
+
+  pService->start();
+  pServer->getAdvertising()->start();
 }
 
 void loop() {
@@ -64,11 +113,28 @@ void loop() {
     Serial.print("Sent: ");
     Serial.println(message);
   }
-  while (mySerial.available()) {
+  if (myserial.available()){
+    while (mySerial.available()) {
 
-    String received = mySerial.readStringUntil('\n');
+      String received = mySerial.readStringUntil('\n');
 
-    Serial.print("Received: ");
-    Serial.println(received);
+      Serial.print("Received: ");
+      Serial.println(received);
+    }
+    pChar->setValue(("Echo: " + value).c_str());
+    struct Telemetry {
+      uint16_t Time;
+      uint8_t PacketCount;
+      uint8_t Mode;
+      uint16_t Altitude; // For flights over 6.5km, change to uint32_t
+      uint16_t VerticalVelocity; // For flights over mach 19, use uint32_t
+      uint32_t GPSLat;
+      uint32_t GPSLon;
+      uint16_t HDOPSats;
+      uint8_t Voltage;
+      uint8_t EnabledItems; // BaroEnabled, imuAccelEnabled, imuGyroEnabled, accelEnabled, flashEnabled, SDEnabled
+      uint8_t Checksum;
+    } __attribute__((packed));
+    Telemetry t;
   }
 }
