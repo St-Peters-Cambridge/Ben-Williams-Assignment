@@ -14,6 +14,24 @@
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 #define LOGO_HEIGHT   32
 #define LOGO_WIDTH    64
+
+String latestTelemetry = "";
+struct Telemetry {
+  uint16_t Time;
+  uint8_t PacketCount;
+  uint8_t Mode;
+  uint16_t Altitude; // For flights over 6.5km, change to uint32_t
+  uint16_t VerticalVelocity; // For flights over mach 19, use uint32_t
+  uint32_t GPSLat;
+  uint32_t GPSLon;
+  uint16_t HDOPSats;
+  uint8_t Voltage;
+  uint8_t EnabledItems; // BaroEnabled, imuAccelEnabled, imuGyroEnabled, accelEnabled, flashEnabled, SDEnabled
+  uint8_t Checksum;
+} __attribute__((packed));
+Telemetry t;
+int ReceivedPackets = 0;
+
 static const unsigned char PROGMEM logo_bmp[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x1f, 0xc0, 
@@ -38,7 +56,7 @@ static const unsigned char PROGMEM logo_bmp[] = {
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
-HardwareSerial mySerial(2);
+HardwareSerial E32(2);
 
 BLECharacteristic *pCharacteristic;
 class MyCallbacks : public BLECharacteristicCallbacks {
@@ -84,7 +102,7 @@ void setup() {
     SSD1306_WHITE
   );
   display.display();
-  mySerial.begin(9600, SERIAL_8N1, 16, 17);
+  E32.begin(9600, SERIAL_8N1, 16, 17);
   BLEDevice::init("Rocket Ground Station");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -108,20 +126,12 @@ void loop() {
 
     String message = Serial.readStringUntil('\n');
 
-    mySerial.println(message);
+    E32.println(message);
 
     Serial.print("Sent: ");
     Serial.println(message);
   }
-  if (myserial.available()){
-    while (mySerial.available()) {
-
-      String received = mySerial.readStringUntil('\n');
-
-      Serial.print("Received: ");
-      Serial.println(received);
-    }
-    pChar->setValue(("Echo: " + value).c_str());
+  while(E32.available()>=sizeof(Telemetry)){
     struct Telemetry {
       uint16_t Time;
       uint8_t PacketCount;
@@ -136,5 +146,24 @@ void loop() {
       uint8_t Checksum;
     } __attribute__((packed));
     Telemetry t;
+    ReceivedPackets ++;
+    E32.readBytes((uint8_t*)&t,sizeof(Telemetry));
+    latestTelemetry = String(t.Time / 10.0, 1) + "," +
+                      String(t.PacketCount, 0) + "," +
+                      String(ReceivedPackets, 0) + "," +
+                      String(t.Altitude / 10.0, 1) + "," +
+                      String(t.VerticalVelocity/10.0, 1) + "," +
+                      String(t.GPSLat/ 1000000.0, 6) + "," +
+                      String(t.GPSLon/1000000.0, 6) + "," +
+                      String(t.HDOPSats % 1000, 0) + "," + 
+                      String((t.HDOPSats - (t.HDOPSats % 1000)) / 10000, 1) + "," +
+                      String(t.Voltage / 10, 1) + "," +
+                      String((t.EnabledItems & 0x01)?1:0); + "," + 
+                      String((t.EnabledItems & 0x02)?1:0); + "," + 
+                      String((t.EnabledItems & 0x04)?1:0); + "," + 
+                      String((t.EnabledItems & 0x08)?1:0); + "," + 
+                      String((t.EnabledItems & 0x16)?1:0); + "," + 
+    Serial.println(latestTelemetry);
+
   }
 }
