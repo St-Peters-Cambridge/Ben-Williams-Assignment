@@ -138,8 +138,8 @@ void loop() {
       uint8_t Mode;
       uint16_t Altitude; // For flights over 6.5km, change to uint32_t
       uint16_t VerticalVelocity; // For flights over mach 19, use uint32_t
-      uint32_t GPSLat;
-      uint32_t GPSLon;
+      int32_t GPSLat;
+      int32_t GPSLon;
       uint16_t HDOPSats;
       uint8_t Voltage;
       uint8_t EnabledItems; // BaroEnabled, imuAccelEnabled, imuGyroEnabled, accelEnabled, flashEnabled, SDEnabled
@@ -149,20 +149,21 @@ void loop() {
     ReceivedPackets ++;
     E32.readBytes((uint8_t*)&t,sizeof(Telemetry));
     latestTelemetry = String(t.Time / 10.0, 1) + "," +
-                      String(t.PacketCount, 0) + "," +
-                      String(ReceivedPackets, 0) + "," +
+                      String(t.PacketCount) + "," +
+                      String(ReceivedPackets) + "," +
                       String(t.Altitude / 10.0, 1) + "," +
                       String(t.VerticalVelocity/10.0, 1) + "," +
                       String(t.GPSLat/ 1000000.0, 6) + "," +
                       String(t.GPSLon/1000000.0, 6) + "," +
                       String(t.HDOPSats % 1000, 0) + "," + 
-                      String((t.HDOPSats - (t.HDOPSats % 1000)) / 10000, 1) + "," +
-                      String(t.Voltage / 10, 1) + "," +
-                      String((t.EnabledItems & 0x01)?1:0); + "," + 
-                      String((t.EnabledItems & 0x02)?1:0); + "," + 
-                      String((t.EnabledItems & 0x04)?1:0); + "," + 
-                      String((t.EnabledItems & 0x08)?1:0); + "," + 
-                      String((t.EnabledItems & 0x16)?1:0); + "," + 
+                      String((t.HDOPSats / 1000) / 10.0, 1) + "," +
+                      String(t.Voltage / 10.0, 1) + "," +
+                      String((t.EnabledItems & 0x01)?1:0) + "," + 
+                      String((t.EnabledItems & 0x02)?1:0) + "," + 
+                      String((t.EnabledItems & 0x04)?1:0) + "," + 
+                      String((t.EnabledItems & 0x08)?1:0) + "," + 
+                      String((t.EnabledItems & 0x16)?1:0) + "," + 
+                      String((t.EnabledItems & 0x32)?1:0);
     Serial.println(latestTelemetry);
 
   }
