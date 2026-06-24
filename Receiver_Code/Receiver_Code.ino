@@ -151,6 +151,7 @@ void loop() {
     latestTelemetry = String(t.Time / 10.0, 1) + "," +
                       String(t.PacketCount) + "," +
                       String(ReceivedPackets) + "," +
+                      String(t.Mode) + "," +
                       String(t.Altitude / 10.0, 1) + "," +
                       String(t.VerticalVelocity/10.0, 1) + "," +
                       String(t.GPSLat/ 1000000.0, 6) + "," +
@@ -165,6 +166,9 @@ void loop() {
                       String((t.EnabledItems & 0x16)?1:0) + "," + 
                       String((t.EnabledItems & 0x32)?1:0);
     Serial.println(latestTelemetry);
-
+    BLECharacteristic *pChar;
+    delay(50);delay(50);
+    pCharacteristic->setValue(latestTelemetry.c_str());
+    pCharacteristic->notify();
   }
 }
