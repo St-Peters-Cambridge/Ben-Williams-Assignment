@@ -154,6 +154,9 @@ async function autoConnectBLE() {
         console.log("Saved name:", savedName);
 
         const device = devices.find(d => d.name === savedName);
+        console.log("Device count:", devices.length);
+        console.log("Device:", device);
+        console.log("Connected:", device?.gatt?.connected);
         console.log("Found device:", device);
 
         if (!device) {
@@ -174,12 +177,9 @@ async function autoConnectBLE() {
                 }
             }
 
-            if (!connected) {
-                throw new Error("Could not reconnect");
-            }
         }
 
-        const server = device.gatt;
+        const server = await device.gatt.connect();
         await new Promise(resolve => setTimeout(resolve, 1000));
         const service = await server.getPrimaryService(SERVICE_UUID);
         const characteristic =

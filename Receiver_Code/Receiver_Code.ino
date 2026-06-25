@@ -73,12 +73,18 @@ class MyCallbacks : public BLECharacteristicCallbacks {
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
     Serial.println("Client connected");
-    pServer->getAdvertising()->start();
+    BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+    pAdvertising->addServiceUUID(SERVICE_UUID);
+    pAdvertising->setScanResponse(true);
+    pAdvertising->start();
   }
 
   void onDisconnect(BLEServer* pServer) {
     Serial.println("Client disconnected");
-    pServer->getAdvertising()->start();
+    BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+    pAdvertising->addServiceUUID(SERVICE_UUID);
+    pAdvertising->setScanResponse(true);
+    pAdvertising->start();
     BLEDevice::startAdvertising();
   }
 };
@@ -118,7 +124,10 @@ void setup() {
   pCharacteristic->setCallbacks(new MyCallbacks());
 
   pService->start();
-  pServer->getAdvertising()->start();
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->start();
 }
 
 void loop() {
@@ -148,24 +157,25 @@ void loop() {
     Telemetry t;
     ReceivedPackets ++;
     E32.readBytes((uint8_t*)&t,sizeof(Telemetry));
-    latestTelemetry = String(t.Time / 10.0, 1) + "," +
-                      String(t.PacketCount) + "," +
-                      String(ReceivedPackets) + "," +
-                      String(t.Mode) + "," +
-                      String(t.Altitude / 10.0, 1) + "," +
-                      String(t.VerticalVelocity/10.0, 1) + "," +
-                      String(t.GPSLat/ 1000000.0, 6) + "," +
-                      String(t.GPSLon/1000000.0, 6) + "," +
-                      String(t.HDOPSats % 1000, 0) + "," + 
-                      String((t.HDOPSats / 1000) / 10.0, 1) + "," +
-                      String(t.Voltage / 10.0, 1) + "," +
-                      String((t.EnabledItems & 0x01)?1:0) + "," + 
-                      String((t.EnabledItems & 0x02)?1:0) + "," + 
-                      String((t.EnabledItems & 0x04)?1:0) + "," + 
-                      String((t.EnabledItems & 0x08)?1:0) + "," + 
-                      String((t.EnabledItems & 0x16)?1:0) + "," + 
-                      String((t.EnabledItems & 0x32)?1:0);
-    Serial.println(latestTelemetry);
+    uint8_t Sats = (t.HDOPSats % 11);
+    float HDOP = (t.HDOPSats / 11) / 10.0;
+    String latestTelemetry = String(t.Time / 10.0, 1) + "," +
+                        String(t.PacketCount) + "," +
+                        String(ReceivedPackets) + "," +
+                        String(t.Altitude / 10.0, 1) + "," +
+                        String(t.VerticalVelocity/10.0, 1) + "," +
+                        String(t.GPSLat/ 1000000.0, 6) + "," +
+                        String(t.GPSLon/1000000.0, 6) + "," +
+                        String(HDOP, 1) + "," + 
+                        String(Sats) + "," +
+                        String(t.Voltage / 10.0, 1) + "," +
+                        String((t.EnabledItems & 0x01)?1:0) + "," + 
+                        String((t.EnabledItems & 0x02)?1:0) + "," + 
+                        String((t.EnabledItems & 0x04)?1:0) + "," + 
+                        String((t.EnabledItems & 0x08)?1:0) + "," + 
+                        String((t.EnabledItems & 0x16)?1:0) + "," + 
+                        String((t.EnabledItems & 0x32)?1:0);
+      Serial.println(latestTelemetry);
     BLECharacteristic *pChar;
     delay(50);delay(50);
     pCharacteristic->setValue(latestTelemetry.c_str());
