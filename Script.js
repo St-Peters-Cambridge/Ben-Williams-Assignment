@@ -19,11 +19,16 @@ var Checksum = 0;
 const SERVICE_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
 const CHAR_UUID    = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
 
+
+let LastMapUpdate = 0;
+
 let port;
-window.addEventListener('load', autoConnectBLE);
+let writer;
+//window.addEventListener('load', autoConnectBLE);
 async function connectSerial() {
     port = await navigator.serial.requestPort();
     await port.open({ baudRate: 115200 });
+    writer = port.writable.getWriter();
     const info = port.getInfo();
     sessionStorage.setItem('portVendorId', info.usbVendorId);
     sessionStorage.setItem('portProductId', info.usbProductId);
@@ -43,6 +48,7 @@ async function autoConnect() {
         port = rocketPort;
         if (port.readable === null) {
             await port.open({ baudRate: 115200 });
+            writer = port.writable.getWriter();
         }
         startReading();
     }
@@ -72,8 +78,8 @@ async function startReading() {
 
             Time = parseFloat(dataArray[0]);
             PacketCount = parseInt(dataArray[1]);
-            ReceivedPackets = parseInt(dataArray[2]);
-            flightState = parseInt(dataArray[3]);
+            flightState = parseInt(dataArray[2]);
+            ReceivedPackets = parseInt(dataArray[3]);
             Altitude = parseFloat(dataArray[4]);
             Velocity = parseFloat(dataArray[5]);
             GPS_LAT = parseFloat(dataArray[6]);
@@ -94,7 +100,7 @@ async function startReading() {
     ReadingSerial = false;
 }
 
-async function connectBLE(){
+/*async function connectBLE(){
 
   try {
     const device = await navigator.bluetooth.requestDevice({
@@ -219,9 +225,9 @@ async function autoConnectBLE() {
 
 
     } catch (err) {
-        console.error(err);
+        console.log(err);
     }
-}
+}*/
 
 function decimalToDMSString(lat, lng) {
   function toDMS(decimal, isLat) {
@@ -457,7 +463,12 @@ function update() {
 
     try{
         EmbedMap = document.getElementById('Map');
-        EmbedMap.src = "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1750!2d" + GPS_LON.toFixed(6) + "!3d" + GPS_LAT.toFixed(6) + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2z"+ encodeCoords(GPS_LAT.toFixed(6), GPS_LON.toFixed(6)) +"!5e1!3m2!1sen!2snz!4v1779743037952!5m2!1sen!2snz";
+        let now = Date.now(); // milliseconds, monotonic, no wraparound
+        if (now - LastMapUpdate >= 5000) { // throttle to once per second
+            console.log("Updating map with coordinates: " + GPS_LAT.toFixed(6) + ", " + GPS_LON.toFixed(6));
+            EmbedMap.src = "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d1750!2d" + GPS_LON.toFixed(6) + "!3d" + GPS_LAT.toFixed(6) + "!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2z"+ encodeCoords(GPS_LAT.toFixed(6), GPS_LON.toFixed(6)) +"!5e1!3m2!1sen!2snz!4v1779743037952!5m2!1sen!2snz";
+            LastMapUpdate = now;
+        }
     } catch (error) {} // Embedded Map
 
     try {
@@ -504,4 +515,54 @@ function update() {
         receivedPackets_Text = document.getElementById('Packets_Received');
         receivedPackets_Text.innerHTML = ReceivedPackets;
     } catch (error) {} // Received Packets updating text
+}
+async function send(str) {
+    if (!writer) {
+        console.error("No writer available — port not connected");
+        return;
+    }
+    const data = new TextEncoder().encode(str + "\n");
+    await writer.write(data);
+}
+
+function UpdateSetting0() {
+    var launchAccel = document.getElementById("launchAccel").value;
+    send(`0,${launchAccel}`);
+}
+function UpdateSetting1() {
+    var flightStateCheckTime = document.getElementById("flightStateCheckTime").value;
+    send(`1,${flightStateCheckTime}`);
+}
+function UpdateSetting2() {
+    var padIdleTransmitRate = document.getElementById("padIdleTransmitRate").value;
+    send(`2,${padIdleTransmitRate}`);
+}
+function UpdateSetting3() {
+    var ballisticTransmitRate = document.getElementById("ballisticTransmitRate").value;
+    send(`3,${ballisticTransmitRate}`);
+}
+function UpdateSetting4() {
+    var landedTransmitRate = document.getElementById("landedTransmitRate").value;
+    send(`4,${landedTransmitRate}`);
+}
+function UpdateSetting5() {
+    var burnoutAccel = document.getElementById("burnoutAccel").value;
+    send(`5,${burnoutAccel}`);
+}
+function UpdateSetting7() {
+    var droguePrimary = document.getElementById("droguePrimary").value;
+    if (droguePrimary == 3) {
+        send('6,0');
+    } else {
+        send('6,1');
+        send(`7,${droguePrimary}`);
+    }
+}
+function UpdateSetting8() {
+    var drogueBackupMode = document.getElementById("drogueBackupMode").value;
+    send(`8,${drogueBackupMode}`);
+}
+function UpdateSetting9() {
+    var mainPrimaryMode = document.getElementById("mainPrimaryMode").value;
+    send(`9,${mainPrimaryMode}`);
 }

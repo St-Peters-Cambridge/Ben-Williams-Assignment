@@ -161,6 +161,7 @@ void loop() {
     float HDOP = (t.HDOPSats / 11) / 10.0;
     String latestTelemetry = String(t.Time / 10.0, 1) + "," +
                         String(t.PacketCount) + "," +
+                        String(t.Mode) + "," + 
                         String(ReceivedPackets) + "," +
                         String(t.Altitude / 10.0, 1) + "," +
                         String(t.VerticalVelocity/10.0, 1) + "," +
