@@ -516,53 +516,119 @@ function update() {
         receivedPackets_Text.innerHTML = ReceivedPackets;
     } catch (error) {} // Received Packets updating text
 }
+
 async function send(str) {
     if (!writer) {
         console.error("No writer available — port not connected");
         return;
     }
+    const data = new TextEncoder().encode("SET " + str + "\n");
+    console.log("Sending:", data);
+    await writer.write(data);
+}
+async function SendCommand(str) {
+    if (!writer) {
+        console.error("No writer available — port not connected");
+        return;
+    }
     const data = new TextEncoder().encode(str + "\n");
+    console.log("Sending:", data);
     await writer.write(data);
 }
 
 function UpdateSetting0() {
     var launchAccel = document.getElementById("launchAccel").value;
-    send(`0,${launchAccel}`);
+    send(`00,${launchAccel}`);
 }
 function UpdateSetting1() {
     var flightStateCheckTime = document.getElementById("flightStateCheckTime").value;
-    send(`1,${flightStateCheckTime}`);
+    send(`01,${flightStateCheckTime}`);
 }
 function UpdateSetting2() {
     var padIdleTransmitRate = document.getElementById("padIdleTransmitRate").value;
-    send(`2,${padIdleTransmitRate}`);
+    send(`02,${padIdleTransmitRate}`);
 }
 function UpdateSetting3() {
     var ballisticTransmitRate = document.getElementById("ballisticTransmitRate").value;
-    send(`3,${ballisticTransmitRate}`);
+    send(`03,${ballisticTransmitRate}`);
 }
 function UpdateSetting4() {
     var landedTransmitRate = document.getElementById("landedTransmitRate").value;
-    send(`4,${landedTransmitRate}`);
+    send(`04,${landedTransmitRate}`);
 }
 function UpdateSetting5() {
     var burnoutAccel = document.getElementById("burnoutAccel").value;
-    send(`5,${burnoutAccel}`);
+    send(`05,${burnoutAccel}`);
 }
 function UpdateSetting7() {
     var droguePrimary = document.getElementById("droguePrimary").value;
     if (droguePrimary == 3) {
-        send('6,0');
+        send('06,0');
     } else {
-        send('6,1');
-        send(`7,${droguePrimary}`);
+        send('06,1');
+        send(`07,${droguePrimary}`);
     }
 }
 function UpdateSetting8() {
     var drogueBackupMode = document.getElementById("drogueBackupMode").value;
-    send(`8,${drogueBackupMode}`);
+    send(`08,${drogueBackupMode}`);
 }
 function UpdateSetting9() {
     var mainPrimaryMode = document.getElementById("mainPrimaryMode").value;
-    send(`9,${mainPrimaryMode}`);
+    send(`09,${mainPrimaryMode}`);
+}
+function UpdateSetting10() {
+    var mainBackupMode = document.getElementById("mainBackupMode").value;
+    send(`10,${mainBackupMode}`);
+}
+function UpdateSetting11() {
+    var mainAlt = document.getElementById("mainDeploy").value;
+    send(`11,${mainAlt}`);
+}
+function UpdateSetting12() {
+    var landedTolerance = document.getElementById("landedTolerance").value;
+    send(`12,${landedTolerance}`);
+}
+function UpdateSetting13() {
+    var landedCheckTime = document.getElementById("landedCheckTime").value;
+    send(`13,${landedCheckTime}`);
+}
+function UpdateSetting14() {
+    var droguePrimary = document.getElementById("droguePrimary").value;
+    send(`14,${droguePrimary}`);
+}
+function UpdateSetting15() {
+    var drogueBackup = document.getElementById("drogueBackup").value;
+    send(`15,${drogueBackup}`);
+}
+function UpdateSetting16() {
+    var mainPrimary = document.getElementById("mainPrimary").value;
+    send(`16,${mainPrimary}`);
+}
+function UpdateSetting17() {
+    var mainBackup = document.getElementById("mainBackup").value;
+    send(`17,${mainBackup}`);
+}
+function UpdateSetting26() {
+    var savingToFlash = document.getElementById("savingToFlash").value;
+    send(`26,${savingToFlash}`);
+}
+function UpdateSetting27() {
+    var savingToSD = document.getElementById("savingToSD").value;
+    send(`27,${savingToSD}`);
+}
+function UpdateSetting28() {
+    var padIdleLogRate = document.getElementById("padIdleLogRate").value;
+    send(`28,${padIdleLogRate}`);
+}
+function UpdateSetting29() {
+    var flightLogRate = document.getElementById("flightLogRate").value;
+    send(`29,${flightLogRate}`);
+}
+function UpdateSetting30() {
+    var ballisticLogRate = document.getElementById("ballisticLogRate").value;
+    send(`30,${ballisticLogRate}`);
+}
+function AbortFlight() {
+    SendCommand("ABORT");
 }

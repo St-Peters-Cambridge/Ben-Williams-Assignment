@@ -133,12 +133,15 @@ void setup() {
 void loop() {
   if (Serial.available()) {
 
-    String message = Serial.readStringUntil('\n');
+    /*String message = Serial.readStringUntil('\n');
 
     E32.println(message);
 
     Serial.print("Sent: ");
-    Serial.println(message);
+    Serial.println(message);*/
+    char c = Serial.read();
+    E32.write(c);
+    Serial.write(c);
   }
   while(E32.available()>=sizeof(Telemetry)){
     struct Telemetry {

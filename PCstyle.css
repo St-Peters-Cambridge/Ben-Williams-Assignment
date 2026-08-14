@@ -394,3 +394,21 @@ tr:has(.FullMap){
     text-align: center; 
     font-size: 2.5vw;
 }
+
+.Abort{
+    width: 30vw;
+    height: 5vw;
+    margin-top: 2vh;
+    font-size: 3.5vw;
+    border-radius: 2.5vw;
+    background-color: Red;
+    border: 0.2vw solid Black;
+    cursor: pointer;
+    font-family: Anta;
+}
+.Abort:hover{
+    background-color: rgb(228, 0, 0);
+}
+.Abort:active{
+    background-color: #b30000;
+}
