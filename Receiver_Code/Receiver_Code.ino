@@ -131,58 +131,57 @@ void setup() {
 }
 
 void loop() {
-  if (Serial.available()) {
+  while (Serial.available()) {
 
-    /*String message = Serial.readStringUntil('\n');
+    String message = Serial.readStringUntil('\n');
 
     E32.println(message);
 
     Serial.print("Sent: ");
-    Serial.println(message);*/
-    char c = Serial.read();
-    E32.write(c);
-    Serial.write(c);
+    Serial.println(message);
   }
-  while(E32.available()>=sizeof(Telemetry)){
-    struct Telemetry {
-      uint16_t Time;
-      uint8_t PacketCount;
-      uint8_t Mode;
-      uint16_t Altitude; // For flights over 6.5km, change to uint32_t
-      uint16_t VerticalVelocity; // For flights over mach 19, use uint32_t
-      int32_t GPSLat;
-      int32_t GPSLon;
-      uint16_t HDOPSats;
-      uint8_t Voltage;
-      uint8_t EnabledItems; // BaroEnabled, imuAccelEnabled, imuGyroEnabled, accelEnabled, flashEnabled, SDEnabled
-      uint8_t Checksum;
-    } __attribute__((packed));
-    Telemetry t;
-    ReceivedPackets ++;
-    E32.readBytes((uint8_t*)&t,sizeof(Telemetry));
-    uint8_t Sats = (t.HDOPSats % 11);
-    float HDOP = (t.HDOPSats / 11) / 10.0;
-    String latestTelemetry = String(t.Time / 10.0, 1) + "," +
-                        String(t.PacketCount) + "," +
-                        String(t.Mode) + "," + 
-                        String(ReceivedPackets) + "," +
-                        String(t.Altitude / 10.0, 1) + "," +
-                        String(t.VerticalVelocity/10.0, 1) + "," +
-                        String(t.GPSLat/ 1000000.0, 6) + "," +
-                        String(t.GPSLon/1000000.0, 6) + "," +
-                        String(HDOP, 1) + "," + 
-                        String(Sats) + "," +
-                        String(t.Voltage / 10.0, 1) + "," +
-                        String((t.EnabledItems & 0x01)?1:0) + "," + 
-                        String((t.EnabledItems & 0x02)?1:0) + "," + 
-                        String((t.EnabledItems & 0x04)?1:0) + "," + 
-                        String((t.EnabledItems & 0x08)?1:0) + "," + 
-                        String((t.EnabledItems & 0x16)?1:0) + "," + 
-                        String((t.EnabledItems & 0x32)?1:0);
-      Serial.println(latestTelemetry);
-    BLECharacteristic *pChar;
-    delay(50);delay(50);
-    pCharacteristic->setValue(latestTelemetry.c_str());
-    pCharacteristic->notify();
+  if (!Serial.available()){
+    while(E32.available()>=sizeof(Telemetry)){
+      struct Telemetry {
+        uint16_t Time;
+        uint8_t PacketCount;
+        uint8_t Mode;
+        uint16_t Altitude; // For flights over 6.5km, change to uint32_t
+        uint16_t VerticalVelocity; // For flights over mach 19, use uint32_t
+        int32_t GPSLat;
+        int32_t GPSLon;
+        uint16_t HDOPSats;
+        uint8_t Voltage;
+        uint8_t EnabledItems; // BaroEnabled, imuAccelEnabled, imuGyroEnabled, accelEnabled, flashEnabled, SDEnabled
+        uint8_t Checksum;
+      } __attribute__((packed));
+      Telemetry t;
+      ReceivedPackets ++;
+      E32.readBytes((uint8_t*)&t,sizeof(Telemetry));
+      uint8_t Sats = (t.HDOPSats % 11);
+      float HDOP = (t.HDOPSats / 11) / 10.0;
+      String latestTelemetry = String(t.Time / 10.0, 1) + "," +
+                          String(t.PacketCount) + "," +
+                          String(t.Mode) + "," + 
+                          String(ReceivedPackets) + "," +
+                          String(t.Altitude / 10.0, 1) + "," +
+                          String(t.VerticalVelocity/10.0, 1) + "," +
+                          String(t.GPSLat/ 1000000.0, 6) + "," +
+                          String(t.GPSLon/1000000.0, 6) + "," +
+                          String(HDOP, 1) + "," + 
+                          String(Sats) + "," +
+                          String(t.Voltage / 10.0, 1) + "," +
+                          String((t.EnabledItems & 0x01)?1:0) + "," + 
+                          String((t.EnabledItems & 0x02)?1:0) + "," + 
+                          String((t.EnabledItems & 0x04)?1:0) + "," + 
+                          String((t.EnabledItems & 0x08)?1:0) + "," + 
+                          String((t.EnabledItems & 0x16)?1:0) + "," + 
+                          String((t.EnabledItems & 0x32)?1:0);
+        Serial.println(latestTelemetry);
+      BLECharacteristic *pChar;
+      delay(50);delay(50);
+      pCharacteristic->setValue(latestTelemetry.c_str());
+      pCharacteristic->notify();
+    }
   }
 }

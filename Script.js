@@ -539,96 +539,121 @@ async function SendCommand(str) {
 function UpdateSetting0() {
     var launchAccel = document.getElementById("launchAccel").value;
     send(`00,${launchAccel}`);
+    alert("Setting minAccel updated to " + launchAccel);
 }
 function UpdateSetting1() {
     var flightStateCheckTime = document.getElementById("flightStateCheckTime").value;
     send(`01,${flightStateCheckTime}`);
+    alert("Setting flightStateCheckTime updated to " + flightStateCheckTime);
 }
 function UpdateSetting2() {
     var padIdleTransmitRate = document.getElementById("padIdleTransmitRate").value;
     send(`02,${padIdleTransmitRate}`);
+    alert("Setting padIdleTransmitRate updated to " + padIdleTransmitRate);
 }
 function UpdateSetting3() {
     var ballisticTransmitRate = document.getElementById("ballisticTransmitRate").value;
     send(`03,${ballisticTransmitRate}`);
+    alert("Setting ballisticTransmitRate updated to " + ballisticTransmitRate);
 }
 function UpdateSetting4() {
     var landedTransmitRate = document.getElementById("landedTransmitRate").value;
     send(`04,${landedTransmitRate}`);
+    alert("Setting landedTransmitRate updated to " + landedTransmitRate);
 }
 function UpdateSetting5() {
     var burnoutAccel = document.getElementById("burnoutAccel").value;
     send(`05,${burnoutAccel}`);
+    alert("Setting burnoutAccel updated to " + burnoutAccel);
 }
 function UpdateSetting7() {
     var droguePrimary = document.getElementById("droguePrimary").value;
     if (droguePrimary == 3) {
         send('06,0');
+        alert("Setting droguePrimary updated to " + droguePrimary + " (drouge Parachue disabled)");
     } else {
         send('06,1');
         send(`07,${droguePrimary}`);
+        alert("Setting droguePrimary updated to " + droguePrimary);
     }
+    alert("Setting droguePrimary updated to " + droguePrimary);
 }
 function UpdateSetting8() {
     var drogueBackupMode = document.getElementById("drogueBackupMode").value;
     send(`08,${drogueBackupMode}`);
+    alert("Setting drogueBackupMode updated to " + drogueBackupMode);
 }
 function UpdateSetting9() {
     var mainPrimaryMode = document.getElementById("mainPrimaryMode").value;
     send(`09,${mainPrimaryMode}`);
+    alert("Setting mainPrimaryMode updated to " + mainPrimaryMode);
 }
 function UpdateSetting10() {
     var mainBackupMode = document.getElementById("mainBackupMode").value;
     send(`10,${mainBackupMode}`);
+    alert("Setting mainBackupMode updated to " + mainBackupMode);
 }
 function UpdateSetting11() {
     var mainAlt = document.getElementById("mainDeploy").value;
     send(`11,${mainAlt}`);
+    alert("Setting mainAlt updated to " + mainAlt);
 }
 function UpdateSetting12() {
     var landedTolerance = document.getElementById("landedTolerance").value;
     send(`12,${landedTolerance}`);
+    alert("Setting landedTolerance updated to " + landedTolerance);
 }
 function UpdateSetting13() {
     var landedCheckTime = document.getElementById("landedCheckTime").value;
     send(`13,${landedCheckTime}`);
+    alert("Setting landedCheckTime updated to " + landedCheckTime);
 }
 function UpdateSetting14() {
     var droguePrimary = document.getElementById("droguePrimary").value;
     send(`14,${droguePrimary}`);
+    alert("Setting droguePrimary updated to " + droguePrimary);
 }
 function UpdateSetting15() {
     var drogueBackup = document.getElementById("drogueBackup").value;
     send(`15,${drogueBackup}`);
+    alert("Setting drogueBackup updated to " + drogueBackup);
 }
 function UpdateSetting16() {
     var mainPrimary = document.getElementById("mainPrimary").value;
     send(`16,${mainPrimary}`);
+    alert("Setting mainPrimary updated to " + mainPrimary);
 }
 function UpdateSetting17() {
     var mainBackup = document.getElementById("mainBackup").value;
     send(`17,${mainBackup}`);
+    alert("Setting mainBackup updated to " + mainBackup);
 }
 function UpdateSetting26() {
     var savingToFlash = document.getElementById("savingToFlash").value;
     send(`26,${savingToFlash}`);
+    alert("Setting savingToFlash updated to " + savingToFlash);
 }
 function UpdateSetting27() {
     var savingToSD = document.getElementById("savingToSD").value;
     send(`27,${savingToSD}`);
+    alert("Setting savingToSD updated to " + savingToSD);
 }
 function UpdateSetting28() {
     var padIdleLogRate = document.getElementById("padIdleLogRate").value;
     send(`28,${padIdleLogRate}`);
+    alert("Setting padIdleLogRate updated to " + padIdleLogRate);
 }
 function UpdateSetting29() {
     var flightLogRate = document.getElementById("flightLogRate").value;
     send(`29,${flightLogRate}`);
+    alert("Setting flightLogRate updated to " + flightLogRate);
 }
 function UpdateSetting30() {
     var ballisticLogRate = document.getElementById("ballisticLogRate").value;
     send(`30,${ballisticLogRate}`);
+    alert("Setting ballisticLogRate updated to " + ballisticLogRate);
 }
-function AbortFlight() {
+function abortFlight() {
     SendCommand("ABORT");
+    alert("Flight aborted");
 }
