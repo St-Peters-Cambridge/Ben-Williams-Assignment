@@ -1,3 +1,4 @@
+// All of the data points that are received from the rocket and are displayed on the page
 var GPS_LAT = -0.000000;
 var GPS_LON = -0.000000;
 var Time = 0.00;
@@ -22,8 +23,10 @@ const CHAR_UUID    = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';
 
 let LastMapUpdate = 0;
 
+// Setting up serial connection
 let port;
 let writer;
+
 //window.addEventListener('load', autoConnectBLE);
 async function connectSerial() {
     port = await navigator.serial.requestPort();
@@ -100,6 +103,7 @@ async function startReading() {
     ReadingSerial = false;
 }
 
+// For Bluetooth (Broken so it is removed) This is broken because I am using multiple pages
 /*async function connectBLE(){
 
   try {
@@ -229,6 +233,7 @@ async function autoConnectBLE() {
     }
 }*/
 
+// For GPS and the map
 function decimalToDMSString(lat, lng) {
   function toDMS(decimal, isLat) {
     const dir = isLat ? (decimal >= 0 ? "N" : "S") : (decimal >= 0 ? "E" : "W");
@@ -271,6 +276,7 @@ try{
     });
 } catch (error) {} // NavMenu
 
+// Updating the colours of the status indicators and updating the text
 function update() {
 
     try {        
@@ -517,6 +523,7 @@ function update() {
     } catch (error) {} // Received Packets updating text
 }
 
+// Sending for updating settings
 async function send(str) {
     if (!writer) {
         console.error("No writer available — port not connected");
@@ -526,6 +533,7 @@ async function send(str) {
     console.log("Sending:", data);
     await writer.write(data);
 }
+// Sending for functions
 async function SendCommand(str) {
     if (!writer) {
         console.error("No writer available — port not connected");
@@ -536,6 +544,7 @@ async function SendCommand(str) {
     await writer.write(data);
 }
 
+// Settings functions sending when they are updated
 function UpdateSetting0() {
     var launchAccel = document.getElementById("launchAccel").value;
     send(`00,${launchAccel}`);

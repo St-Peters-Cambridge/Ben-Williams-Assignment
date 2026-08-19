@@ -10,11 +10,8 @@
 #define SERVICE_UUID  "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHAR_UUID     "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-#define SCREEN_WIDTH 128 // OLED display width, in pixels
-#define SCREEN_HEIGHT 32 // OLED display height, in pixels
-#define LOGO_HEIGHT   32
-#define LOGO_WIDTH    64
 
+// Packet information
 String latestTelemetry = "";
 struct Telemetry {
   uint16_t Time;
@@ -32,6 +29,7 @@ struct Telemetry {
 Telemetry t;
 int ReceivedPackets = 0;
 
+// Stuff for the screen
 static const unsigned char PROGMEM logo_bmp[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x30, 0x00, 0x1f, 0xc0, 
@@ -50,15 +48,20 @@ static const unsigned char PROGMEM logo_bmp[] = {
 	0x07, 0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0c, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
 };
-
-
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 32 // OLED display height, in pixels
+#define LOGO_HEIGHT   32
+#define LOGO_WIDTH    64
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
 #define SCREEN_ADDRESS 0x3C ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
+// For receiving the data
 HardwareSerial E32(2);
 
+// BLE stuff
 BLECharacteristic *pCharacteristic;
+// Checking if something was sent to the ESP32
 class MyCallbacks : public BLECharacteristicCallbacks {
   void onWrite(BLECharacteristic *pChar) {
     String value = pChar->getValue().c_str();
@@ -70,6 +73,7 @@ class MyCallbacks : public BLECharacteristicCallbacks {
   }
 };
 
+// Checking if a BLE client is connected
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer* pServer) {
     Serial.println("Client connected");
@@ -78,7 +82,7 @@ class MyServerCallbacks : public BLEServerCallbacks {
     pAdvertising->setScanResponse(true);
     pAdvertising->start();
   }
-
+// Checking if a BLE client is disconnected
   void onDisconnect(BLEServer* pServer) {
     Serial.println("Client disconnected");
     BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
@@ -90,9 +94,11 @@ class MyServerCallbacks : public BLEServerCallbacks {
 };
 
 void setup() {
+  // Basic setup
   Serial.begin(115200);
   pinMode(0, OUTPUT);
   digitalWrite(0, LOW);
+  // Setting up display
   if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
@@ -108,7 +114,10 @@ void setup() {
     SSD1306_WHITE
   );
   display.display();
+  // Beginning communication with rocket
   E32.begin(9600, SERIAL_8N1, 16, 17);
+
+  // Beginning BLE communication
   BLEDevice::init("Rocket Ground Station");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
@@ -131,6 +140,7 @@ void setup() {
 }
 
 void loop() {
+  // Checking if something was sent from the computer
   while (Serial.available()) {
 
     String message = Serial.readStringUntil('\n');
@@ -140,6 +150,7 @@ void loop() {
     Serial.print("Sent: ");
     Serial.println(message);
   }
+  // Getting information from rocket and sending to computer
   if (!Serial.available()){
     while(E32.available()>=sizeof(Telemetry)){
       struct Telemetry {
@@ -178,8 +189,9 @@ void loop() {
                           String((t.EnabledItems & 0x16)?1:0) + "," + 
                           String((t.EnabledItems & 0x32)?1:0);
         Serial.println(latestTelemetry);
+        // Sending data to BLE
       BLECharacteristic *pChar;
-      delay(50);delay(50);
+      delay(100);
       pCharacteristic->setValue(latestTelemetry.c_str());
       pCharacteristic->notify();
     }
