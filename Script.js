@@ -33,6 +33,7 @@ async function connectSerial() {
     await port.open({ baudRate: 115200 });
     writer = port.writable.getWriter();
     const info = port.getInfo();
+    alert("Serial Port Connected!");
     sessionStorage.setItem('portVendorId', info.usbVendorId);
     sessionStorage.setItem('portProductId', info.usbProductId);
 }
@@ -665,4 +666,8 @@ function UpdateSetting30() {
 function abortFlight() {
     SendCommand("ABORT");
     alert("Flight aborted");
+}
+function BeginLogging() {
+    SendCommand("BEGIN_LOGGING");
+    alert("Logging begun");
 }
